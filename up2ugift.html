@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>up2uGift — هديتك على كيفك | Your Gift, Your Way</title>
+<meta name="description" content="هدايا رقمية تفاعلية مخصصة لكل مناسبة — Interactive digital gifts for every occasion">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Tajawal:wght@300;400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #c9a84c;
+  --gold-light: #f0d080;
+  --gold-dark: #8a6820;
+  --dark: #0c0a08;
+  --dark2: #161210;
+  --dark3: #1e1814;
+  --cream: #f5f0e8;
+  --cream2: #ede5d4;
+  --text: #f0ead8;
+  --muted: rgba(240,234,216,0.55);
+  --pink: #e8a0b4;
+  --teal: #7dd3b8;
+  --lavender: #b8a8d8;
+  --radius: 16px;
+  --radius-lg: 24px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--dark);
+  color: var(--text);
+  font-family: 'Tajawal', 'DM Sans', sans-serif;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* Custom cursor */
+#cursor {
+  position: fixed; width:12px; height:12px; border-radius:50%;
+  background: var(--gold); pointer-events:none; z-index:9999;
+  transform:translate(-50%,-50%); transition:transform 0.1s;
+  mix-blend-mode: difference;
+}
+#cursor-ring {
+  position:fixed; width:36px; height:36px; border-radius:50%;
+  border:1px solid rgba(201,168,76,0.5); pointer-events:none; z-index:9998;
+  transform:translate(-50%,-50%); transition:all 0.15s ease;
+}
+
+/* Noise overlay */
+body::before {
+  content:''; position:fixed; inset:0; z-index:1; pointer-events:none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity:0.4;
+}
+
+/* ── NAV ── */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding:20px 40px; display:flex; align-items:center; justify-content:space-between;
+  background:linear-gradient(to bottom, rgba(12,10,8,0.95), transparent);
+  backdrop-filter:blur(12px);
+}
+.nav-logo {
+  font-family:'Playfair Display', serif; font-size:22px; font-weight:900;
+  color:var(--gold); letter-spacing:-0.5px; text-decoration:none;
+}
+.nav-logo span { color:var(--text); font-weight:400; }
+.nav-links { display:flex; gap:32px; align-items:center; }
+.nav-links a {
+  color:var(--muted); text-decoration:none; font-size:14px;
+  transition:color 0.2s; font-weight:500;
+}
+.nav-links a:hover { color:var(--gold); }
+.nav-cta {
+  background:var(--gold); color:var(--dark) !important;
+  padding:8px 22px; border-radius:100px; font-weight:700 !important;
+  font-size:13px !important;
+}
+.nav-cta:hover { background:var(--gold-light) !important; color:var(--dark) !important; }
+.lang-toggle {
+  background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.25);
+  color:var(--gold); padding:6px 14px; border-radius:100px;
+  font-size:12px; cursor:pointer; font-family:inherit; transition:all 0.2s;
+}
+.lang-toggle:hover { background:rgba(201,168,76,0.2); }
+
+/* ── HERO ── */
+#hero {
+  min-height:100vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; text-align:center;
+  padding:120px 24px 80px; position:relative; overflow:hidden;
+}
+.hero-bg {
+  position:absolute; inset:0; z-index:0;
+  background: radial-gradient(ellipse at 30% 50%, rgba(201,168,76,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 70% 30%, rgba(184,168,216,0.06) 0%, transparent 50%),
+              radial-gradient(ellipse at 50% 80%, rgba(125,211,184,0.05) 0%, transparent 50%);
+}
+.hero-orb {
+  position:absolute; border-radius:50%; filter:blur(80px); opacity:0.12;
+  animation:orbFloat 8s ease-in-out infinite;
+}
+.hero-orb-1 { width:400px;height:400px;background:var(--gold);top:-100px;left:-100px;animation-delay:0s; }
+.hero-orb-2 { width:300px;height:300px;background:var(--lavender);bottom:-50px;right:-50px;animation-delay:3s; }
+.hero-orb-3 { width:200px;height:200px;background:var(--teal);top:40%;left:60%;animation-delay:1.5s; }
+@keyframes orbFloat { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(20px,-20px) scale(1.05)} }
+
+.hero-badge {
+  display:inline-flex; align-items:center; gap:8px;
+  background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.25);
+  color:var(--gold); padding:8px 20px; border-radius:100px;
+  font-size:13px; font-weight:500; margin-bottom:32px;
+  animation:fadeUp 0.8s ease both;
+}
+.hero-badge::before { content:'✦'; font-size:10px; }
+
+.hero-title {
+  font-family:'Playfair Display', serif;
+  font-size:clamp(42px, 8vw, 88px);
+  font-weight:900; line-height:1.05;
+  margin-bottom:16px; position:relative; z-index:2;
+  animation:fadeUp 0.8s ease 0.1s both;
+}
+.hero-title .gold { color:var(--gold); }
+.hero-title .line2 { display:block; font-size:clamp(28px,5vw,52px); font-weight:400; color:var(--muted); }
+
+.hero-sub {
+  font-size:clamp(16px,2.5vw,20px); color:var(--muted);
+  max-width:600px; line-height:1.8; margin:0 auto 48px;
+  animation:fadeUp 0.8s ease 0.2s both; z-index:2; position:relative;
+}
+
+.hero-btns {
+  display:flex; gap:16px; justify-content:center; flex-wrap:wrap;
+  animation:fadeUp 0.8s ease 0.3s both; z-index:2; position:relative;
+}
+.btn-primary {
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold),var(--gold-light));
+  color:var(--dark); border:none; border-radius:100px;
+  padding:16px 40px; font-size:16px; font-weight:700;
+  cursor:pointer; font-family:inherit;
+  box-shadow:0 0 40px rgba(201,168,76,0.3);
+  transition:all 0.3s; text-decoration:none; display:inline-block;
+}
+.btn-primary:hover { transform:translateY(-2px); box-shadow:0 0 60px rgba(201,168,76,0.5); }
+.btn-secondary {
+  background:transparent; border:1px solid rgba(201,168,76,0.35);
+  color:var(--gold); border-radius:100px; padding:16px 40px;
+  font-size:16px; font-weight:500; cursor:pointer; font-family:inherit;
+  transition:all 0.3s; text-decoration:none; display:inline-block;
+}
+.btn-secondary:hover { background:rgba(201,168,76,0.08); border-color:var(--gold); }
+
+.hero-stats {
+  display:flex; gap:48px; justify-content:center; margin-top:64px;
+  flex-wrap:wrap; z-index:2; position:relative;
+  animation:fadeUp 0.8s ease 0.4s both;
+}
+.stat { text-align:center; }
+.stat-num { font-family:'Playfair Display',serif; font-size:36px; font-weight:900; color:var(--gold); }
+.stat-label { font-size:12px; color:var(--muted); margin-top:4px; text-transform:uppercase; letter-spacing:1px; }
+
+/* Floating gifts */
+.float-gift {
+  position:absolute; font-size:28px; opacity:0.15; pointer-events:none;
+  animation:giftFloat var(--dur) ease-in-out infinite;
+  animation-delay:var(--dl);
+}
+@keyframes giftFloat {
+  0%,100%{transform:translateY(0) rotate(var(--rot))}
+  50%{transform:translateY(-20px) rotate(calc(var(--rot) + 5deg))}
+}
+
+/* ── SECTION BASE ── */
+section { padding:100px 24px; position:relative; z-index:2; }
+.section-label {
+  display:inline-block; font-size:11px; letter-spacing:3px; text-transform:uppercase;
+  color:var(--gold); margin-bottom:16px; font-weight:600;
+}
+.section-title {
+  font-family:'Playfair Display',serif; font-size:clamp(28px,5vw,52px);
+  font-weight:700; line-height:1.2; margin-bottom:16px;
+}
+.section-sub { font-size:16px; color:var(--muted); line-height:1.8; max-width:560px; }
+
+/* ── HOW IT WORKS ── */
+#how { background:var(--dark2); }
+.how-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:2px; max-width:1100px; margin:60px auto 0; }
+.how-step {
+  background:var(--dark3); padding:40px 32px; text-align:center;
+  position:relative; transition:background 0.3s;
+}
+.how-step:hover { background:rgba(201,168,76,0.05); }
+.step-num {
+  font-family:'Playfair Display',serif; font-size:64px; font-weight:900;
+  color:rgba(201,168,76,0.1); line-height:1; margin-bottom:16px;
+  display:block;
+}
+.step-icon { font-size:32px; margin-bottom:16px; display:block; }
+.step-title { font-size:18px; font-weight:700; margin-bottom:8px; }
+.step-desc { font-size:14px; color:var(--muted); line-height:1.7; }
+.step-arrow {
+  position:absolute; top:50%; left:-1px; transform:translateY(-50%);
+  color:rgba(201,168,76,0.2); font-size:20px;
+}
+
+/* ── GIFTS GRID ── */
+#gifts { max-width:1200px; margin:0 auto; }
+.gifts-header { display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:16px; margin-bottom:48px; }
+.filter-tabs { display:flex; gap:8px; flex-wrap:wrap; }
+.filter-tab {
+  background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08);
+  color:var(--muted); padding:8px 18px; border-radius:100px; font-size:13px;
+  cursor:pointer; font-family:inherit; transition:all 0.2s;
+}
+.filter-tab.active, .filter-tab:hover {
+  background:rgba(201,168,76,0.12); border-color:rgba(201,168,76,0.35); color:var(--gold);
+}
+
+.gifts-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; }
+.gift-card {
+  background:var(--dark2); border:1px solid rgba(255,255,255,0.06);
+  border-radius:var(--radius-lg); overflow:hidden; transition:all 0.3s;
+  cursor:pointer; position:relative; group:true;
+}
+.gift-card:hover { transform:translateY(-6px); border-color:rgba(201,168,76,0.3); box-shadow:0 20px 60px rgba(0,0,0,0.4); }
+.gift-card-preview {
+  height:200px; display:flex; align-items:center; justify-content:center;
+  position:relative; overflow:hidden; font-size:60px;
+}
+.gift-card-preview::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(to bottom, transparent 50%, var(--dark2));
+}
+.gift-tag {
+  position:absolute; top:12px; right:12px; z-index:2;
+  background:rgba(12,10,8,0.8); border:1px solid rgba(201,168,76,0.3);
+  color:var(--gold); padding:4px 12px; border-radius:100px; font-size:11px; font-weight:600;
+}
+.gift-tag.new { background:rgba(125,211,184,0.15); border-color:rgba(125,211,184,0.4); color:var(--teal); }
+.gift-tag.hot { background:rgba(232,160,180,0.15); border-color:rgba(232,160,180,0.4); color:var(--pink); }
+.gift-info { padding:20px 24px 24px; }
+.gift-occasion { font-size:11px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+.gift-name { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; margin-bottom:8px; }
+.gift-desc { font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:16px; }
+.gift-footer { display:flex; align-items:center; justify-content:space-between; }
+.gift-price { font-family:'Playfair Display',serif; font-size:22px; font-weight:900; color:var(--gold); }
+.gift-price span { font-size:12px; color:var(--muted); font-family:'Tajawal',sans-serif; font-weight:400; }
+.gift-btn {
+  background:var(--gold); color:var(--dark); border:none; border-radius:100px;
+  padding:8px 20px; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit;
+  transition:all 0.2s;
+}
+.gift-btn:hover { background:var(--gold-light); transform:scale(1.04); }
+
+/* Preview overlay */
+.preview-overlay {
+  position:fixed; inset:0; z-index:200; background:rgba(12,10,8,0.95);
+  display:none; align-items:center; justify-content:center; padding:24px;
+}
+.preview-overlay.show { display:flex; animation:fadeIn 0.3s ease; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+.preview-frame {
+  width:100%; max-width:420px; height:85vh; max-height:700px;
+  background:var(--dark3); border-radius:var(--radius-lg);
+  border:1px solid rgba(201,168,76,0.2); overflow:hidden; position:relative;
+}
+.preview-close {
+  position:absolute; top:16px; right:16px; z-index:10;
+  background:rgba(12,10,8,0.8); border:1px solid rgba(255,255,255,0.1);
+  color:var(--text); width:36px; height:36px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; font-size:16px; transition:all 0.2s;
+}
+.preview-close:hover { background:rgba(201,168,76,0.2); color:var(--gold); }
+.preview-actions {
+  margin-top:16px; display:flex; gap:12px; justify-content:center;
+}
+
+/* ── PACKAGES ── */
+#packages { background:var(--dark2); }
+.packages-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:20px; max-width:1100px; margin:60px auto 0; }
+.package-card {
+  background:var(--dark3); border:1px solid rgba(255,255,255,0.06);
+  border-radius:var(--radius-lg); padding:40px 32px; position:relative;
+  transition:all 0.3s;
+}
+.package-card:hover { transform:translateY(-4px); }
+.package-card.featured {
+  border:1px solid var(--gold); background:rgba(201,168,76,0.04);
+  box-shadow:0 0 60px rgba(201,168,76,0.1);
+}
+.package-badge {
+  position:absolute; top:-14px; left:50%; transform:translateX(-50%);
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+  color:var(--dark); padding:5px 20px; border-radius:100px;
+  font-size:12px; font-weight:700; white-space:nowrap;
+}
+.package-name { font-family:'Playfair Display',serif; font-size:24px; font-weight:700; margin-bottom:8px; }
+.package-price {
+  font-family:'Playfair Display',serif; font-size:48px; font-weight:900;
+  color:var(--gold); line-height:1; margin:16px 0;
+}
+.package-price sup { font-size:20px; vertical-align:top; margin-top:10px; display:inline-block; }
+.package-price sub { font-size:14px; color:var(--muted); font-family:'Tajawal',sans-serif; font-weight:400; }
+.package-desc { font-size:14px; color:var(--muted); line-height:1.7; margin-bottom:24px; }
+.package-features { list-style:none; margin-bottom:32px; }
+.package-features li {
+  font-size:14px; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05);
+  display:flex; gap:10px; align-items:center; color:var(--muted);
+}
+.package-features li::before { content:'✦'; color:var(--gold); font-size:10px; flex-shrink:0; }
+.package-features li.included { color:var(--text); }
+.package-btn {
+  width:100%; padding:14px; border-radius:100px; font-size:15px;
+  font-weight:700; cursor:pointer; font-family:inherit; transition:all 0.2s;
+}
+.package-btn-gold { background:linear-gradient(135deg,var(--gold-dark),var(--gold)); color:var(--dark); border:none; }
+.package-btn-gold:hover { box-shadow:0 0 30px rgba(201,168,76,0.4); }
+.package-btn-outline { background:transparent; border:1px solid rgba(201,168,76,0.35); color:var(--gold); }
+.package-btn-outline:hover { background:rgba(201,168,76,0.08); }
+
+/* Custom package */
+.custom-banner {
+  max-width:800px; margin:40px auto 0;
+  background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(184,168,216,0.06));
+  border:1px solid rgba(201,168,76,0.2); border-radius:var(--radius-lg);
+  padding:40px; display:flex; gap:32px; align-items:center; flex-wrap:wrap;
+}
+.custom-icon { font-size:48px; flex-shrink:0; }
+.custom-text h3 { font-family:'Playfair Display',serif; font-size:24px; margin-bottom:8px; }
+.custom-text p { font-size:14px; color:var(--muted); line-height:1.7; }
+.custom-btn {
+  margin-top:16px; display:inline-flex; align-items:center; gap:8px;
+  background:transparent; border:1px solid var(--gold); color:var(--gold);
+  padding:12px 28px; border-radius:100px; font-size:14px; font-weight:600;
+  cursor:pointer; font-family:inherit; transition:all 0.2s; text-decoration:none;
+}
+.custom-btn:hover { background:rgba(201,168,76,0.1); }
+
+/* ── DELIVERY ── */
+#delivery { max-width:1100px; margin:0 auto; }
+.delivery-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; margin-top:60px; }
+.delivery-visual {
+  background:var(--dark2); border-radius:var(--radius-lg); padding:40px;
+  border:1px solid rgba(255,255,255,0.06); position:relative; overflow:hidden;
+}
+.delivery-mockup {
+  display:flex; flex-direction:column; gap:12px;
+}
+.delivery-item {
+  background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.15);
+  border-radius:12px; padding:16px 20px;
+  display:flex; align-items:center; gap:16px;
+  animation:slideIn 0.5s ease both;
+}
+.delivery-item:nth-child(2){animation-delay:.1s}
+.delivery-item:nth-child(3){animation-delay:.2s}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+.di-icon { font-size:28px; }
+.di-text strong { display:block; font-size:14px; margin-bottom:3px; }
+.di-text span { font-size:12px; color:var(--muted); }
+.di-badge {
+  margin-right:auto; background:rgba(201,168,76,0.15);
+  color:var(--gold); padding:3px 10px; border-radius:100px; font-size:11px; font-weight:600;
+}
+.delivery-points { list-style:none; }
+.delivery-points li {
+  padding:16px 0; border-bottom:1px solid rgba(255,255,255,0.05);
+  display:flex; gap:16px; align-items:flex-start;
+}
+.dp-icon { font-size:20px; flex-shrink:0; margin-top:2px; }
+.dp-text strong { display:block; font-size:16px; margin-bottom:4px; }
+.dp-text span { font-size:14px; color:var(--muted); line-height:1.6; }
+
+/* ── TESTIMONIALS ── */
+#testimonials { background:var(--dark2); }
+.testimonials-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:20px; max-width:1100px; margin:60px auto 0; }
+.testimonial {
+  background:var(--dark3); border:1px solid rgba(255,255,255,0.05);
+  border-radius:var(--radius-lg); padding:28px; transition:all 0.3s;
+}
+.testimonial:hover { border-color:rgba(201,168,76,0.2); }
+.t-stars { color:var(--gold); font-size:14px; margin-bottom:16px; letter-spacing:2px; }
+.t-text { font-size:15px; line-height:1.8; color:var(--muted); margin-bottom:20px; font-style:italic; }
+.t-author { display:flex; align-items:center; gap:12px; }
+.t-avatar {
+  width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-size:18px; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2);
+}
+.t-name { font-size:14px; font-weight:600; }
+.t-loc { font-size:12px; color:var(--muted); }
+
+/* ── CTA ── */
+#cta {
+  text-align:center; padding:120px 24px;
+  background:radial-gradient(ellipse at 50% 50%, rgba(201,168,76,0.08) 0%, transparent 70%);
+}
+.cta-title {
+  font-family:'Playfair Display',serif; font-size:clamp(32px,6vw,64px);
+  font-weight:900; margin-bottom:16px; line-height:1.1;
+}
+.cta-sub { font-size:18px; color:var(--muted); margin-bottom:40px; }
+.cta-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+.whatsapp-btn {
+  background:#25d366; color:white; border:none; border-radius:100px;
+  padding:16px 40px; font-size:16px; font-weight:700; cursor:pointer;
+  font-family:inherit; display:inline-flex; align-items:center; gap:10px;
+  transition:all 0.3s; text-decoration:none;
+  box-shadow:0 0 40px rgba(37,211,102,0.25);
+}
+.whatsapp-btn:hover { transform:translateY(-2px); box-shadow:0 0 60px rgba(37,211,102,0.4); }
+
+/* ── CONTACT FORM ── */
+#contact { background:var(--dark2); }
+.contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; max-width:1000px; margin:60px auto 0; align-items:start; }
+.contact-info h3 { font-family:'Playfair Display',serif; font-size:28px; margin-bottom:16px; }
+.contact-info p { font-size:15px; color:var(--muted); line-height:1.8; margin-bottom:32px; }
+.contact-channels { display:flex; flex-direction:column; gap:12px; }
+.contact-channel {
+  display:flex; align-items:center; gap:14px; padding:16px 20px;
+  background:var(--dark3); border-radius:12px; border:1px solid rgba(255,255,255,0.05);
+  text-decoration:none; color:var(--text); transition:all 0.2s;
+}
+.contact-channel:hover { border-color:rgba(201,168,76,0.3); background:rgba(201,168,76,0.05); }
+.cc-icon { font-size:22px; }
+.cc-text strong { display:block; font-size:14px; margin-bottom:2px; }
+.cc-text span { font-size:12px; color:var(--muted); }
+.contact-form { display:flex; flex-direction:column; gap:14px; }
+.form-group { display:flex; flex-direction:column; gap:6px; }
+.form-group label { font-size:13px; color:var(--muted); font-weight:500; }
+.form-group input, .form-group select, .form-group textarea {
+  background:var(--dark3); border:1px solid rgba(255,255,255,0.08);
+  border-radius:10px; padding:14px 16px; color:var(--text);
+  font-family:inherit; font-size:14px; transition:border 0.2s;
+  outline:none;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color:rgba(201,168,76,0.4);
+}
+.form-group textarea { resize:vertical; min-height:100px; }
+.form-group select option { background:var(--dark3); }
+.form-submit {
+  background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+  color:var(--dark); border:none; border-radius:100px;
+  padding:14px; font-size:15px; font-weight:700;
+  cursor:pointer; font-family:inherit; transition:all 0.2s; margin-top:8px;
+}
+.form-submit:hover { box-shadow:0 0 30px rgba(201,168,76,0.4); }
+
+/* ── FOOTER ── */
+footer {
+  background:var(--dark); border-top:1px solid rgba(255,255,255,0.05);
+  padding:60px 40px 30px;
+}
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; max-width:1100px; margin:0 auto 48px; }
+.footer-brand p { font-size:14px; color:var(--muted); line-height:1.7; margin-top:12px; max-width:280px; }
+.footer-col h4 { font-size:14px; font-weight:700; margin-bottom:16px; color:var(--gold); }
+.footer-col a { display:block; font-size:13px; color:var(--muted); text-decoration:none; margin-bottom:10px; transition:color 0.2s; }
+.footer-col a:hover { color:var(--text); }
+.footer-bottom {
+  max-width:1100px; margin:0 auto;
+  padding-top:24px; border-top:1px solid rgba(255,255,255,0.05);
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+}
+.footer-bottom p { font-size:13px; color:var(--muted); }
+.social-links { display:flex; gap:12px; }
+.social-link {
+  width:36px; height:36px; border-radius:50%;
+  background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08);
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; text-decoration:none; color:var(--muted);
+  transition:all 0.2s;
+}
+.social-link:hover { background:rgba(201,168,76,0.1); border-color:rgba(201,168,76,0.3); color:var(--gold); }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.reveal {
+  opacity:0;transform:translateY(30px);transition:all 0.7s ease;
+}
+.reveal.visible {
+  opacity:1;transform:translateY(0);
+}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav{padding:16px 20px;}
+  .nav-links{display:none;}
+  .delivery-grid,.contact-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .hero-stats{gap:24px;}
+  .packages-grid{grid-template-columns:1fr;}
+}
+@media(max-width:480px){
+  .footer-grid{grid-template-columns:1fr;}
+  .how-grid{grid-template-columns:1fr;}
+}
+
+/* ── MOBILE NAV ── */
+.mobile-nav-toggle {
+  display:none; background:transparent; border:1px solid rgba(201,168,76,0.3);
+  color:var(--gold); padding:8px 12px; border-radius:8px; cursor:pointer;
+  font-size:18px; font-family:inherit;
+}
+@media(max-width:768px){.mobile-nav-toggle{display:block;}}
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">up2u<span>Gift</span></a>
+  <div class="nav-links">
+    <a href="#gifts" class="ar-text">الهدايا</a>
+    <a href="#packages" class="ar-text">الباقات</a>
+    <a href="#how" class="ar-text">كيف يعمل</a>
+    <a href="#contact" class="ar-text">تواصل</a>
+    <button class="lang-toggle" onclick="toggleLang()">EN | عر</button>
+    <a href="#packages" class="nav-cta ar-text">ابدأ الآن</a>
+  </div>
+  <button class="mobile-nav-toggle" onclick="toggleMobileNav()">☰</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+
+  <!-- floating emojis -->
+  <div class="float-gift" style="top:15%;left:8%;--dur:6s;--dl:0s;--rot:-10deg">🎁</div>
+  <div class="float-gift" style="top:25%;right:6%;--dur:7s;--dl:1s;--rot:8deg">💌</div>
+  <div class="float-gift" style="bottom:20%;left:12%;--dur:8s;--dl:2s;--rot:-5deg">🌹</div>
+  <div class="float-gift" style="bottom:30%;right:10%;--dur:5s;--dl:0.5s;--rot:12deg">✨</div>
+  <div class="float-gift" style="top:50%;left:4%;--dur:9s;--dl:1.5s;--rot:-8deg">🎊</div>
+  <div class="float-gift" style="top:60%;right:4%;--dur:6.5s;--dl:3s;--rot:6deg">💝</div>
+
+  <div class="hero-badge ar-text">هدايا رقمية تفاعلية لكل مناسبة ✦</div>
+
+  <h1 class="hero-title">
+    <span class="gold ar-text">هديتك</span>
+    <br>
+    <span class="ar-text">على كيفك</span>
+    <span class="line2 ar-text en-text" style="display:none">Your Gift, Your Way</span>
+  </h1>
+
+  <p class="hero-sub ar-text">
+    أول منصة عربية لصنع هدايا رقمية تفاعلية — تبهر من تحبهم بلمسة واحدة
+  </p>
+  <p class="hero-sub en-text" style="display:none">
+    The first interactive digital gifting platform — amaze your loved ones with a single tap
+  </p>
+
+  <div class="hero-btns">
+    <a href="#gifts" class="btn-primary ar-text">🎁 اكتشف الهدايا</a>
+    <a href="#how" class="btn-secondary ar-text">كيف يعمل؟</a>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">15+</div><div class="stat-label ar-text">نموذج</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label ar-text">تفاعلي</div></div>
+    <div class="stat"><div class="stat-num">∞</div><div class="stat-label ar-text">تخصيص</div></div>
+    <div class="stat"><div class="stat-num">24h</div><div class="stat-label ar-text">تسليم</div></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="reveal">
+      <div class="section-label ar-text">كيف يعمل</div>
+      <h2 class="section-title ar-text">ثلاث خطوات بس 🎯</h2>
+      <p class="section-sub ar-text">من غير تعب ومن غير خبرة — بسهولة تامة</p>
+    </div>
+    <div class="how-grid reveal">
+      <div class="how-step">
+        <span class="step-num">01</span>
+        <span class="step-icon">🎨</span>
+        <div class="step-title ar-text">اختار النموذج</div>
+        <div class="step-desc ar-text">اختار من 15+ نموذج لكل مناسبة — حب، أصدقاء، تهنئة، روستينج، وأكتر</div>
+      </div>
+      <div class="how-step">
+        <div class="step-arrow">←</div>
+        <span class="step-num">02</span>
+        <span class="step-icon">✏️</span>
+        <div class="step-title ar-text">خصصه لكيفك</div>
+        <div class="step-desc ar-text">اكتب الاسم، أضف رسالتك، اختار الألوان — وأي تفاصيل تحبها</div>
+      </div>
+      <div class="how-step">
+        <div class="step-arrow">←</div>
+        <span class="step-num">03</span>
+        <span class="step-icon">🚀</span>
+        <div class="step-title ar-text">ابعته وابهر</div>
+        <div class="step-desc ar-text">تحمل الملف أو تستلم رابط — تبعته على واتساب أو إيميل وانتظر ردة فعلهم</div>
+      </div>
+      <div class="how-step">
+        <div class="step-arrow">←</div>
+        <span class="step-num">04</span>
+        <span class="step-icon">💫</span>
+        <div class="step-title ar-text">يتفاعلوا معاه</div>
+        <div class="step-desc ar-text">هدية حقيقية تتفاعل معاها — مش بس تصوير شاشة عادي</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GIFTS -->
+<section id="gifts" style="max-width:1200px;margin:0 auto;padding:100px 24px;">
+  <div class="gifts-header reveal">
+    <div>
+      <div class="section-label ar-text">المعرض</div>
+      <h2 class="section-title ar-text">اختار هديتك 🎁</h2>
+    </div>
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="filterGifts('all')">الكل</button>
+      <button class="filter-tab" onclick="filterGifts('love')">💕 حب</button>
+      <button class="filter-tab" onclick="filterGifts('friends')">👫 أصدقاء</button>
+      <button class="filter-tab" onclick="filterGifts('congrats')">🎉 تهنئة</button>
+      <button class="filter-tab" onclick="filterGifts('fun')">😂 ترفيه</button>
+    </div>
+  </div>
+
+  <div class="gifts-grid reveal" id="giftsGrid">
+    <!-- cards injected by JS -->
+  </div>
+</section>
+
+<!-- Preview Overlay -->
+<div class="preview-overlay" id="previewOverlay">
+  <div style="position:relative;">
+    <div class="preview-frame" id="previewFrame">
+      <button class="preview-close" onclick="closePreview()">✕</button>
+      <iframe id="previewIframe" style="width:100%;height:100%;border:none;" srcdoc=""></iframe>
+    </div>
+    <div class="preview-actions">
+      <a id="downloadBtn" class="btn-primary" href="#" download style="font-size:14px;padding:12px 28px;">⬇ تحميل HTML</a>
+      <a id="orderBtn" class="whatsapp-btn" href="#" target="_blank" style="padding:12px 24px;font-size:14px;">💬 اطلب نسخة مخصصة</a>
+    </div>
+  </div>
+</div>
+
+<!-- PACKAGES -->
+<section id="packages" style="background:var(--dark2);padding:100px 24px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="reveal" style="text-align:center;">
+      <div class="section-label ar-text">الباقات</div>
+      <h2 class="section-title ar-text">اختار الباقة المناسبة 💎</h2>
+      <p class="section-sub ar-text" style="margin:0 auto;">أسعار واضحة، قيمة حقيقية</p>
+    </div>
+
+    <div class="packages-grid reveal">
+
+      <!-- Basic -->
+      <div class="package-card">
+        <div class="package-name ar-text">الأساسية ⭐</div>
+        <div class="package-price"><sup>$</sup>9<sub> / هدية</sub></div>
+        <div class="package-desc ar-text">مثالية لهدية واحدة سريعة</div>
+        <ul class="package-features">
+          <li class="included ar-text">نموذج جاهز من المعرض</li>
+          <li class="included ar-text">ملف HTML قابل للتحميل</li>
+          <li class="included ar-text">تسليم خلال 24 ساعة</li>
+          <li class="ar-text" style="opacity:.4">PDF تفاعلي</li>
+          <li class="ar-text" style="opacity:.4">تخصيص ألوان</li>
+          <li class="ar-text" style="opacity:.4">إضافة موسيقى</li>
+        </ul>
+        <button class="package-btn package-btn-outline ar-text" onclick="orderPackage('basic')">اختار الأساسية</button>
+      </div>
+
+      <!-- Pro -->
+      <div class="package-card featured">
+        <div class="package-badge ar-text">الأكثر طلباً ✦</div>
+        <div class="package-name ar-text">المميزة 💫</div>
+        <div class="package-price"><sup>$</sup>19<sub> / هدية</sub></div>
+        <div class="package-desc ar-text">هدية مخصصة بالكامل بلمستك</div>
+        <ul class="package-features">
+          <li class="included ar-text">كل نماذج المعرض</li>
+          <li class="included ar-text">ملف HTML + PDF تفاعلي</li>
+          <li class="included ar-text">تخصيص ألوان ونصوص</li>
+          <li class="included ar-text">إضافة موسيقى أو رابط</li>
+          <li class="included ar-text">تسليم خلال 12 ساعة</li>
+          <li class="ar-text" style="opacity:.4">تصميم من الصفر</li>
+        </ul>
+        <button class="package-btn package-btn-gold ar-text" onclick="orderPackage('pro')">اختار المميزة</button>
+      </div>
+
+      <!-- Premium -->
+      <div class="package-card">
+        <div class="package-name ar-text">البريميوم 👑</div>
+        <div class="package-price"><sup>$</sup>49<sub> / هدية</sub></div>
+        <div class="package-desc ar-text">تجربة هدية لا تُنسى — مصممة من الصفر</div>
+        <ul class="package-features">
+          <li class="included ar-text">تصميم حصري من الصفر</li>
+          <li class="included ar-text">HTML + PDF + رابط مباشر</li>
+          <li class="included ar-text">تخصيص كامل 100%</li>
+          <li class="included ar-text">موسيقى + صور + تفاصيل</li>
+          <li class="included ar-text">تسليم خلال 6 ساعات</li>
+          <li class="included ar-text">مراجعة غير محدودة</li>
+        </ul>
+        <button class="package-btn package-btn-outline ar-text" onclick="orderPackage('premium')">اختار البريميوم</button>
+      </div>
+
+    </div>
+
+    <!-- Custom -->
+    <div class="custom-banner reveal">
+      <div class="custom-icon">🎨</div>
+      <div class="custom-text">
+        <h3 class="ar-text">محتاج تخصيص خاص؟</h3>
+        <p class="ar-text">فريق، شركة، مناسبة كبيرة، أو فكرة فريدة؟ تواصل معنا وهنعمل لك حاجة مش موجودة عند حد تاني.</p>
+        <a href="https://wa.me/YOUR_NUMBER?text=عايز تخصيص خاص" target="_blank" class="custom-btn ar-text">
+          💬 تكلم معانا على واتساب
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERY -->
+<section id="delivery" style="padding:100px 24px;">
+  <div class="delivery-grid reveal" style="max-width:1100px;margin:0 auto;">
+    <div>
+      <div class="section-label ar-text">التسليم</div>
+      <h2 class="section-title ar-text">بيوصلك إزاي؟ 📦</h2>
+      <p class="section-sub ar-text" style="margin-bottom:32px;">نسلم بكل الطرق الممكنة عشان ما تتعبش</p>
+      <ul class="delivery-points">
+        <li>
+          <span class="dp-icon">📄</span>
+          <div class="dp-text">
+            <strong class="ar-text">ملف HTML جاهز</strong>
+            <span class="ar-text">تفتحه في أي متصفح، موبايل أو كمبيوتر، بدون نت</span>
+          </div>
+        </li>
+        <li>
+          <span class="dp-icon">🔗</span>
+          <div class="dp-text">
+            <strong class="ar-text">رابط مباشر</strong>
+            <span class="ar-text">رابط تبعته على واتساب أو إيميل — يفتح في المتصفح فوراً</span>
+          </div>
+        </li>
+        <li>
+          <span class="dp-icon">📱</span>
+          <div class="dp-text">
+            <strong class="ar-text">PDF تفاعلي</strong>
+            <span class="ar-text">ملف PDF يشتغل على أي جهاز ويمكن يتطبع كمان</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="delivery-visual">
+      <div class="delivery-mockup">
+        <div class="delivery-item">
+          <span class="di-icon">📄</span>
+          <div class="di-text">
+            <strong class="ar-text">هديتك.html</strong>
+            <span class="ar-text">ملف HTML تفاعلي كامل</span>
+          </div>
+          <span class="di-badge">جاهز ✓</span>
+        </div>
+        <div class="delivery-item">
+          <span class="di-icon">🔗</span>
+          <div class="di-text">
+            <strong>up2ugift.com/gift/xxx</strong>
+            <span class="ar-text">رابط مباشر للمشاركة</span>
+          </div>
+          <span class="di-badge">جاهز ✓</span>
+        </div>
+        <div class="delivery-item">
+          <span class="di-icon">📱</span>
+          <div class="di-text">
+            <strong class="ar-text">هديتك.pdf</strong>
+            <span class="ar-text">PDF تفاعلي احترافي</span>
+          </div>
+          <span class="di-badge">جاهز ✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" style="padding:100px 24px;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div class="reveal" style="text-align:center;margin-bottom:0;">
+      <div class="section-label ar-text">آراء العملاء</div>
+      <h2 class="section-title ar-text">شايفين إيه فينا؟ 💬</h2>
+    </div>
+    <div class="testimonials-grid reveal">
+      <div class="testimonial">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text ar-text">"بعتها لخطيبتي وهي جنت فعلاً — قالتلي أحلى هدية في حياتها. تسلم إيدك!"</p>
+        <div class="t-author">
+          <div class="t-avatar">👨</div>
+          <div>
+            <div class="t-name ar-text">أحمد، الرياض</div>
+            <div class="t-loc ar-text">باقة المميزة</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text ar-text">"عملتها لمديرتي في العمل وكل الشركة انبهرت. شغل احترافي جداً 🔥"</p>
+        <div class="t-author">
+          <div class="t-avatar">👩</div>
+          <div>
+            <div class="t-name ar-text">سارة، جدة</div>
+            <div class="t-loc ar-text">باقة البريميوم</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text ar-text">"صاحبي لما فتح هدية الروستينج ضحك لساعة كاملة 😂 أفضل حاجة عملتها ليه"</p>
+        <div class="t-author">
+          <div class="t-avatar">👦</div>
+          <div>
+            <div class="t-name ar-text">محمد، القاهرة</div>
+            <div class="t-loc ar-text">باقة الأساسية</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial">
+        <div class="t-stars">★★★★★</div>
+        <p class="t-text ar-text">"الفكرة ده غيرت مفهوم الهدايا عندي خالص — مش هبعت تاني حاجة عادية"</p>
+        <div class="t-author">
+          <div class="t-avatar">👩‍💼</div>
+          <div>
+            <div class="t-name ar-text">نور، دبي</div>
+            <div class="t-loc ar-text">باقة المميزة</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="reveal">
+    <h2 class="cta-title ar-text">ابدأ دلوقتي 🎁<br><span style="color:var(--gold)">هديتك على كيفك</span></h2>
+    <p class="cta-sub ar-text">أول هدية تعملها هتغير نظرتك للهدايا للأبد</p>
+    <div class="cta-btns">
+      <a href="https://wa.me/YOUR_NUMBER?text=عايز أطلب هدية" target="_blank" class="whatsapp-btn">
+        <span>💬</span><span class="ar-text">اطلب على واتساب</span>
+      </a>
+      <a href="#packages" class="btn-primary ar-text">اختار باقة</a>
+      <a href="https://paypal.me/YOUR_PAYPAL" target="_blank" class="btn-secondary">Pay with PayPal</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" style="background:var(--dark2);padding:100px 24px;">
+  <div style="max-width:1000px;margin:0 auto;">
+    <div class="reveal">
+      <div class="section-label ar-text">تواصل</div>
+      <h2 class="section-title ar-text">كلمنا 💬</h2>
+    </div>
+    <div class="contact-grid reveal">
+      <div class="contact-info">
+        <h3 class="ar-text">عندك سؤال أو فكرة؟</h3>
+        <p class="ar-text">كلمنا على أي قناة تريحك — هنرد في أسرع وقت ونساعدك تلاقي الهدية المثالية</p>
+        <div class="contact-channels">
+          <a href="https://wa.me/YOUR_NUMBER" target="_blank" class="contact-channel">
+            <span class="cc-icon">💬</span>
+            <div class="cc-text"><strong class="ar-text">واتساب</strong><span>+966 XX XXX XXXX</span></div>
+          </a>
+          <a href="mailto:hello@up2ugift.com" class="contact-channel">
+            <span class="cc-icon">📧</span>
+            <div class="cc-text"><strong>Email</strong><span>hello@up2ugift.com</span></div>
+          </a>
+          <a href="https://instagram.com/up2ugift" target="_blank" class="contact-channel">
+            <span class="cc-icon">📸</span>
+            <div class="cc-text"><strong>Instagram</strong><span>@up2ugift</span></div>
+          </a>
+        </div>
+      </div>
+      <form class="contact-form" onsubmit="submitForm(event)">
+        <div class="form-group">
+          <label class="ar-text">الاسم</label>
+          <input type="text" placeholder="اسمك هنا" required />
+        </div>
+        <div class="form-group">
+          <label>Email / واتساب</label>
+          <input type="text" placeholder="بريدك أو رقمك" required />
+        </div>
+        <div class="form-group">
+          <label class="ar-text">نوع الهدية</label>
+          <select>
+            <option class="ar-text">اختار...</option>
+            <option class="ar-text">هدية حب 💕</option>
+            <option class="ar-text">تهنئة مناسبة 🎉</option>
+            <option class="ar-text">أصدقاء 👫</option>
+            <option class="ar-text">روستينج كوميدي 😂</option>
+            <option class="ar-text">شكر وتقدير ⭐</option>
+            <option class="ar-text">تخصيص خاص 🎨</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="ar-text">رسالتك</label>
+          <textarea placeholder="اكتب أي تفاصيل..."></textarea>
+        </div>
+        <button type="submit" class="form-submit ar-text">✦ ابعت الطلب</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a class="nav-logo" href="#" style="font-size:26px;">up2u<span>Gift</span></a>
+      <p class="ar-text">أول منصة عربية لصنع هدايا رقمية تفاعلية — هديتك على كيفك</p>
+    </div>
+    <div class="footer-col">
+      <h4 class="ar-text">روابط</h4>
+      <a href="#gifts" class="ar-text">المعرض</a>
+      <a href="#packages" class="ar-text">الباقات</a>
+      <a href="#how" class="ar-text">كيف يعمل</a>
+      <a href="#contact" class="ar-text">تواصل</a>
+    </div>
+    <div class="footer-col">
+      <h4 class="ar-text">الباقات</h4>
+      <a href="#packages" class="ar-text">الأساسية - $9</a>
+      <a href="#packages" class="ar-text">المميزة - $19</a>
+      <a href="#packages" class="ar-text">البريميوم - $49</a>
+      <a href="#contact" class="ar-text">تخصيص خاص</a>
+    </div>
+    <div class="footer-col">
+      <h4>Follow Us</h4>
+      <a href="#">Instagram</a>
+      <a href="#">TikTok</a>
+      <a href="#">Twitter / X</a>
+      <a href="#">LinkedIn</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="ar-text">© 2025 up2uGift — جميع الحقوق محفوظة</p>
+    <div class="social-links">
+      <a href="#" class="social-link">📸</a>
+      <a href="#" class="social-link">🎵</a>
+      <a href="#" class="social-link">🐦</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── CURSOR ──
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+  setTimeout(() => { ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px'; }, 80);
+});
+document.querySelectorAll('a,button').forEach(el => {
+  el.addEventListener('mouseenter', () => { ring.style.transform = 'translate(-50%,-50%) scale(1.8)'; ring.style.borderColor = 'rgba(201,168,76,0.8)'; });
+  el.addEventListener('mouseleave', () => { ring.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.borderColor = 'rgba(201,168,76,0.5)'; });
+});
+
+// ── LANG ──
+let isAr = true;
+function toggleLang() {
+  isAr = !isAr;
+  document.querySelectorAll('.ar-text').forEach(el => el.style.display = isAr ? '' : 'none');
+  document.querySelectorAll('.en-text').forEach(el => el.style.display = isAr ? 'none' : '');
+  document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+  document.documentElement.lang = isAr ? 'ar' : 'en';
+}
+
+// ── REVEAL ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── GIFTS DATA ──
+const gifts = [
+  { id:1, emoji:'💝', bg:'linear-gradient(135deg,#1a0a20,#2d0f20)', tag:'hot', tagLabel:'الأكثر طلباً', cat:'love', occasion:'حب ورومانسية', name:'رسالة الجواب', desc:'جواب حب تفاعلي — يفتحوه ويلاقوا مفاجأة', price:'9', btnLabel:'معاينة' },
+  { id:2, emoji:'👑', bg:'linear-gradient(135deg,#0a100a,#0d2010)', tag:'new', tagLabel:'جديد', cat:'congrats', occasion:'تهنئة ومناسبات', name:'تهنئة المدير/ة', desc:'شخصية تتحرك وتحتفل — مناسبة للترقيات', price:'9', btnLabel:'معاينة' },
+  { id:3, emoji:'😂', bg:'linear-gradient(135deg,#0a0a1e,#1a1a3e)', tag:'', tagLabel:'', cat:'fun', occasion:'كوميدي وترفيه', name:'روستينج الصاحب', desc:'أربع شرائح كوميدية تضحكه وتدوّبه', price:'9', btnLabel:'معاينة' },
+  { id:4, emoji:'⭐', bg:'linear-gradient(135deg,#0a0a10,#0d1020)', tag:'', tagLabel:'', cat:'friends', occasion:'أصدقاء وشكر', name:'شكر الصديقة', desc:'نجمة ذهبية تتفتح على رسالة شكر دافية', price:'9', btnLabel:'معاينة' },
+  { id:5, emoji:'🌸', bg:'linear-gradient(135deg,#1a0a12,#2d0f20)', tag:'', tagLabel:'', cat:'love', occasion:'حب خفيف', name:'جواب البداية', desc:'للبدايات الحلوة — كلام خفيف ومؤثر', price:'9', btnLabel:'معاينة' },
+  { id:6, emoji:'💌', bg:'linear-gradient(135deg,#1a0a20,#150525)', tag:'', tagLabel:'', cat:'love', occasion:'حب وعلاقات', name:'حب بعد سنة', desc:'هدية للعلاقات اللي لها تاريخ وذكريات', price:'9', btnLabel:'معاينة' },
+  { id:7, emoji:'🎂', bg:'linear-gradient(135deg,#1a0a08,#2d1508)', tag:'new', tagLabel:'جديد', cat:'congrats', occasion:'أعياد ميلاد', name:'عيد الميلاد', desc:'كيكة تفاعلية تتفتح وتحتفل بيك', price:'9', btnLabel:'معاينة' },
+  { id:8, emoji:'🕊️', bg:'linear-gradient(135deg,#080d0a,#0d1a10)', tag:'', tagLabel:'', cat:'friends', occasion:'مصالحة واعتذار', name:'رسالة صلح', desc:'باب يفتح على اعتذار صادق ودافي', price:'9', btnLabel:'معاينة' },
+  { id:9, emoji:'🎓', bg:'linear-gradient(135deg,#0a0a1a,#101025)', tag:'new', tagLabel:'جديد', cat:'congrats', occasion:'تخرج ونجاح', name:'تهنئة التخرج', desc:'احتفال تفاعلي بالتخرج والنجاح', price:'9', btnLabel:'معاينة' },
+  { id:10, emoji:'🔥', bg:'linear-gradient(135deg,#1a0808,#2d1010)', tag:'hot', tagLabel:'الأكثر طلباً', cat:'fun', occasion:'روستينج كوميدي', name:'روستينج VIP', desc:'خمس شرائح كوميدية مخصصة بالكامل', price:'19', btnLabel:'معاينة' },
+  { id:11, emoji:'💪', bg:'linear-gradient(135deg,#0a100a,#1a2010)', tag:'', tagLabel:'', cat:'congrats', occasion:'إنجاز ونجاح', name:'تهنئة الإنجاز', desc:'رسالة تحفيزية لمن حقق حلمه', price:'9', btnLabel:'معاينة' },
+  { id:12, emoji:'🌹', bg:'linear-gradient(135deg,#1a0812,#2d1020)', tag:'', tagLabel:'', cat:'love', occasion:'حب وشوق', name:'رسالة الشوق', desc:'رسالة دافية لمن تشتاق له', price:'9', btnLabel:'معاينة' },
+  { id:13, emoji:'👶', bg:'linear-gradient(135deg,#0a1018,#101828)', tag:'new', tagLabel:'جديد', cat:'congrats', occasion:'مواليد ومناسبات', name:'تهنئة المولود', desc:'احتفال بالمولود الجديد بطريقة مبتكرة', price:'9', btnLabel:'معاينة' },
+  { id:14, emoji:'💍', bg:'linear-gradient(135deg,#1a1208,#2d2010)', tag:'', tagLabel:'', cat:'congrats', occasion:'خطوبة وزواج', name:'تهنئة الخطوبة', desc:'هدية تفاعلية للخطوبة والزواج', price:'9', btnLabel:'معاينة' },
+  { id:15, emoji:'🎨', bg:'linear-gradient(135deg,#100a1a,#180d25)', tag:'hot', tagLabel:'مميز', cat:'friends', occasion:'تخصيص كامل', name:'تصميم خاص بك', desc:'هدية فريدة مصممة من الصفر لمناسبتك', price:'49', btnLabel:'اطلب الآن' },
+];
+
+let currentFilter = 'all';
+function renderGifts(filter) {
+  const grid = document.getElementById('giftsGrid');
+  const filtered = filter === 'all' ? gifts : gifts.filter(g => g.cat === filter);
+  grid.innerHTML = filtered.map(g => `
+    <div class="gift-card" data-id="${g.id}" data-cat="${g.cat}">
+      <div class="gift-card-preview" style="background:${g.bg}">
+        <span style="font-size:70px;z-index:1;position:relative">${g.emoji}</span>
+        ${g.tag ? `<div class="gift-tag ${g.tag}">${g.tagLabel}</div>` : ''}
+      </div>
+      <div class="gift-info">
+        <div class="gift-occasion ar-text">${g.occasion}</div>
+        <div class="gift-name ar-text">${g.name}</div>
+        <div class="gift-desc ar-text">${g.desc}</div>
+        <div class="gift-footer">
+          <div class="gift-price">$${g.price}<span> / هدية</span></div>
+          <button class="gift-btn ar-text" onclick="openPreview(${g.id})">${g.btnLabel}</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+renderGifts('all');
+
+function filterGifts(cat) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderGifts(cat);
+}
+
+// ── PREVIEW ──
+function openPreview(id) {
+  const gift = gifts.find(g => g.id === id);
+  if(!gift) return;
+  const overlay = document.getElementById('previewOverlay');
+  const iframe = document.getElementById('previewIframe');
+  const whatsappMsg = encodeURIComponent(`مرحبا، عايز أطلب هدية "${gift.name}" - باقة $${gift.price}`);
+  document.getElementById('orderBtn').href = `https://wa.me/YOUR_NUMBER?text=${whatsappMsg}`;
+  iframe.srcdoc = `<div style="width:100%;height:100%;background:${gift.bg};display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;font-family:Tajawal,sans-serif;color:white;text-align:center;padding:40px;">
+    <div style="font-size:80px">${gift.emoji}</div>
+    <div style="font-size:24px;font-weight:700">${gift.name}</div>
+    <div style="font-size:14px;opacity:.7;line-height:1.8;max-width:300px">${gift.desc}</div>
+    <div style="margin-top:16px;padding:10px 24px;background:rgba(201,168,76,0.2);border:1px solid rgba(201,168,76,0.4);border-radius:100px;font-size:13px;color:#c9a84c">معاينة تجريبية — اطلب النسخة الكاملة</div>
+  </div>`;
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+function closePreview() {
+  document.getElementById('previewOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+document.getElementById('previewOverlay').addEventListener('click', function(e) {
+  if(e.target === this) closePreview();
+});
+
+// ── ORDER PACKAGES ──
+function orderPackage(pkg) {
+  const msgs = {
+    basic: 'عايز أطلب باقة الأساسية $9',
+    pro: 'عايز أطلب باقة المميزة $19',
+    premium: 'عايز أطلب باقة البريميوم $49'
+  };
+  window.open(`https://wa.me/YOUR_NUMBER?text=${encodeURIComponent(msgs[pkg])}`, '_blank');
+}
+
+// ── FORM ──
+function submitForm(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.form-submit');
+  btn.textContent = '✓ تم الإرسال!';
+  btn.style.background = 'linear-gradient(135deg,#065f46,#10b981)';
+  setTimeout(() => {
+    btn.textContent = '✦ ابعت الطلب';
+    btn.style.background = '';
+    e.target.reset();
+  }, 3000);
+}
+
+// ── MOBILE NAV ──
+function toggleMobileNav() {
+  const links = document.querySelector('.nav-links');
+  if(links.style.display === 'flex') {
+    links.style.display = 'none';
+  } else {
+    links.style.cssText = 'display:flex;flex-direction:column;position:fixed;top:70px;left:0;right:0;background:rgba(12,10,8,0.98);padding:24px;gap:20px;z-index:99;border-bottom:1px solid rgba(201,168,76,0.2);';
+  }
+}
+</script>
+</body>
+</html>
